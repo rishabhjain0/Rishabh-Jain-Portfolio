@@ -29,6 +29,22 @@
     "address": {"@type": "PostalAddress", "addressLocality": "Bangalore", "addressCountry": "IN"},
     "sameAs": ["https://linkedin.com/in/rishabhjain", "https://github.com/rishabhjain0"]
   }
+
+    // Custom cursor
+    const cursorDot  = document.getElementById('cursor');
+    const cursorRing = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+    (function animCursor() {
+      cursorDot.style.left  = mx + 'px';
+      cursorDot.style.top   = my + 'px';
+      rx += (mx - rx) * 0.1;
+      ry += (my - ry) * 0.1;
+      cursorRing.style.left = rx + 'px';
+      cursorRing.style.top  = ry + 'px';
+      requestAnimationFrame(animCursor);
+    })();
+
   </script>
 
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet"/>
@@ -222,9 +238,38 @@
       .scroll-hint { display: none; }
       footer { flex-direction: column; padding: 1.5rem; }
     }
+
+    /* ── CUSTOM CURSOR ── */
+    body { cursor: none; }
+    .cursor {
+      width: 8px; height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+      position: fixed; pointer-events: none; z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: width 0.2s, height 0.2s, background 0.2s;
+    }
+    .cursor-ring {
+      width: 32px; height: 32px;
+      border: 1.5px solid var(--accent);
+      border-radius: 50%;
+      position: fixed; pointer-events: none; z-index: 9998;
+      transform: translate(-50%, -50%);
+      opacity: 0.5;
+      transition: width 0.25s, height 0.25s, opacity 0.25s;
+    }
+    body:has(a:hover) .cursor,
+    body:has(button:hover) .cursor { width: 14px; height: 14px; background: var(--accent); }
+    body:has(a:hover) .cursor-ring,
+    body:has(button:hover) .cursor-ring { width: 48px; height: 48px; opacity: 0.25; }
+    @media (hover: none) { .cursor, .cursor-ring { display: none; } body { cursor: auto; } }
+
   </style>
 </head>
 <body>
+
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
 
   <!-- TICKER -->
   <div class="ticker" aria-hidden="true">
@@ -273,7 +318,7 @@
         <h1 class="hero-name">Rishabh<br/><em>Jain</em></h1>
         <p class="hero-tagline">Building scalable web &amp; mobile products — and AI-powered experiences that actually think. 3.5 years shipping across fintech and edtech with MERN, Flutter, and Generative AI.</p>
         <div class="hero-cta">
-          <a href="mailto:jainrishabh7899@gmail.com" class="btn btn-primary">Get in touch →</a>
+          <a href="/cdn-cgi/l/email-protection#a9c3c8c0c7dbc0dac1c8cbc19e919090e9cec4c8c0c587cac6c4" class="btn btn-primary">Get in touch →</a>
           <a href="#projects" class="btn btn-outline">View Projects</a>
         </div>
       </div>
@@ -291,9 +336,9 @@
     </div>
     <div class="hero-stats">
       <div class="stat"><span class="stat-num" data-target="3.5" data-suffix="+">3.5+</span><span class="stat-label">Years Experience</span></div>
-      <div class="stat"><span class="stat-num" data-target="50" data-suffix="%">50%</span><span class="stat-label">Learning Outcome Boost</span></div>
-      <div class="stat"><span class="stat-num" data-target="4" data-suffix="×">4×</span><span class="stat-label">AI Pipeline Speed</span></div>
-      <div class="stat"><span class="stat-num" data-target="500" data-suffix="+">500+</span><span class="stat-label">Problems Solved</span></div>
+      <div class="stat"><span class="stat-num" data-target="2" data-suffix="">2</span><span class="stat-label">EdTech + AI Products Built</span></div>
+      <div class="stat"><span class="stat-num" data-target="6" data-suffix="★">6★</span><span class="stat-label">HackerRank Rating</span></div>
+      <div class="stat"><span class="stat-num" data-target="500" data-suffix="+">500+</span><span class="stat-label">DSA Problems Solved</span></div>
     </div>
     <div class="scroll-hint"><div class="scroll-hint-line"></div><span>Scroll to explore</span></div>
   </section>
@@ -396,8 +441,7 @@
       <h2 class="section-title reveal">Open to new<br/>opportunities</h2>
       <p class="contact-sub reveal">Remote-friendly · Full-time or contract · Bangalore, India</p>
       <div class="contact-links reveal">
-        <a href="mailto:jainrishabh7899@gmail.com" class="contact-link">✉️ Email me</a>
-        <a href="tel:+917424969069" class="contact-link">📞 +91 74249 69069</a>
+        <a href="/cdn-cgi/l/email-protection#0c666d65627e657f646d6e643b3435354c6b616d6560226f6361" class="contact-link">✉️ Email me</a>
         <a href="https://linkedin.com" target="_blank" class="contact-link">🔗 LinkedIn</a>
         <a href="https://github.com/rishabhjain0" target="_blank" class="contact-link">🐙 GitHub</a>
       </div>
@@ -409,7 +453,7 @@
     <span>Full-Stack &amp; GenAI Engineer · Bangalore</span>
   </footer>
 
-  <script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     // Nav shrink
     const nav = document.getElementById('nav');
     window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 60), { passive: true });
@@ -465,6 +509,21 @@
       });
       btn.addEventListener('mouseleave', () => btn.style.transform = '');
     });
+
+    // Custom cursor
+    const cursorDot  = document.getElementById('cursor');
+    const cursorRing = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+    (function animCursor() {
+      cursorDot.style.left  = mx + 'px';
+      cursorDot.style.top   = my + 'px';
+      rx += (mx - rx) * 0.1;
+      ry += (my - ry) * 0.1;
+      cursorRing.style.left = rx + 'px';
+      cursorRing.style.top  = ry + 'px';
+      requestAnimationFrame(animCursor);
+    })();
   </script>
 </body>
 </html>
